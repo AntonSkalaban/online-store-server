@@ -5,7 +5,7 @@ export enum Pages {
 }
 
 export interface Product {
-  id: number;
+  _id: string;
   title: string;
   description: string;
   price: number;
@@ -16,11 +16,11 @@ export interface Product {
   category: string;
   thumbnail: string;
   images: string[];
+  __v: number;
 }
 
-export interface ProductsResponce {
-  products: Product[];
-  total: number;
-  skip: number;
-  limit: number;
+export interface Category {
+  _id: string;
+  name: string;
+  __v: number;
 }

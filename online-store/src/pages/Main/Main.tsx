@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { getProducts } from '../../http/http';
 import { ProductsList } from '../../components/ProductsList/ProductsList';
 import { SearchBar } from '../../components/SearchBar/SearchBar';
-import { ProductsResponce } from 'types';
+import { Product } from 'types';
 import './style.css';
 import { FilterBlock } from '../../components/FilterBlock/FilterBlock';
 
@@ -25,7 +25,7 @@ const deleteUndefURLFields = (url: URLSearchParams) => {
 };
 
 export const Main = () => {
-  const [data, setData] = useState({} as ProductsResponce);
+  const [data, setData] = useState([] as Product[]);
   const [isLoading, setIsLoading] = useState(false);
 
   const [filterValues, setFilterValues] = useState({} as UrlSearchKeys);
@@ -58,11 +58,7 @@ export const Main = () => {
     <main className="main">
       <FilterBlock submitFilter={handleFilterSubmit} />
       <SearchBar changeSearchValue={handleFilterSubmit} />
-      {!isLoading && data?.products ? (
-        <ProductsList products={data.products} />
-      ) : (
-        <div>Loading...</div>
-      )}
+      {!isLoading && data.length > 0 ? <ProductsList products={data} /> : <div>Loading...</div>}
     </main>
   );
 };
