@@ -11,7 +11,7 @@ export const ProductsList = ({ products }: ProductsListProps) => {
   return (
     <div className="proucts-list">
       {products.map((product) => {
-        return <ProductCard key={product.id} product={product} />;
+        return <ProductCard key={product._id} product={product} />;
       })}
     </div>
   );

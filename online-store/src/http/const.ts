@@ -1,1 +1,1 @@
-export const url = 'https://dummyjson.com';
+export const url = 'http://localhost:3000';

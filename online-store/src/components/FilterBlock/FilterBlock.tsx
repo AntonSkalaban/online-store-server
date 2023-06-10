@@ -14,7 +14,7 @@ export const FilterBlock = ({ submitFilter }: FilterBlockProps) => {
       const data = await getCategories();
       setCategories(
         data.map((category) => {
-          return { name: category, checked: false };
+          return { name: category.name, checked: false };
         })
       );
     } catch (e) {
