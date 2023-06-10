@@ -6,9 +6,19 @@ class ProductService {
         return createdProduct;
     }
 
-    async getAll() {
-        const products = await Product.find()
-        return products;
+    async getAll(params) {
+       const obj = {}
+
+        if (params?.category) {
+            obj.category = params.category.split(',')
+        }
+
+        if (params?.searchValue) {
+            const re = new RegExp(params.searchValue, 'i');
+            obj['$or'] = [{category: re}, {name: re}, {brand: re}] ;
+        }
+
+        return await Product.find(obj)
     }
 
     async getOne(id) {            

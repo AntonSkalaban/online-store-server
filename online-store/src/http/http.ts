@@ -4,6 +4,7 @@ import { url } from './const';
 export const getProducts = async (params: string): Promise<Product[]> => {
   const res = await fetch(`${url}/products${params ? `?${params}` : ''}`);
   const data = await res.json();
+  console.log(`${url}/products${params ? `?${params}` : ''}`);
   return data;
 };
 
