@@ -1,20 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { getCategories } from '../../http/http';
+import { FilterValues } from '../../pages/Main/Main';
 import './style.css';
-import { UrlSearchKeys } from '../../pages/Main/Main';
-
-interface FilterBlockProps {
-  submitFilter: (value: UrlSearchKeys) => void;
+export interface FilterBlockProps {
+  submitFilter: (value: FilterValues) => void;
+  filterValues: FilterValues;
 }
-export const FilterBlock = ({ submitFilter }: FilterBlockProps) => {
+
+export const FilterBlock = ({ submitFilter, filterValues }: FilterBlockProps) => {
   const [categories, setCategories] = useState([] as { name: string; checked: boolean }[]);
 
   const createInitialState = async () => {
     try {
+      const checkedCategories = filterValues.category;
+
       const data = await getCategories();
+
       setCategories(
         data.map((category) => {
-          return { name: category.name, checked: false };
+          return {
+            name: category.name,
+            checked: checkedCategories?.includes(category.name) ?? false,
+          };
         })
       );
     } catch (e) {
@@ -24,6 +31,7 @@ export const FilterBlock = ({ submitFilter }: FilterBlockProps) => {
 
   useEffect(() => {
     createInitialState();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

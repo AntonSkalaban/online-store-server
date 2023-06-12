@@ -2,35 +2,29 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { getProducts } from '../../http/http';
 import { ProductsList } from '../../components/ProductsList/ProductsList';
 import { SearchBar } from '../../components/SearchBar/SearchBar';
+import { FilterBlock } from '../../components/FilterBlock/FilterBlock';
+import { PageURL } from '../../helpers/PageURL';
+import { SearchParams } from '../../helpers/SearchParams';
 import { Product } from 'types';
 import './style.css';
-import { FilterBlock } from '../../components/FilterBlock/FilterBlock';
 
-export interface UrlSearchKeys {
+export interface FilterValues {
   category?: string[];
   searchValue?: string;
 }
 
-const createUrlSearchParams = (obj: object) => {
-  return new URLSearchParams({ ...obj });
-};
-
-const deleteUndefURLFields = (url: URLSearchParams) => {
-  const emptyNames = [] as string[];
-
-  url.forEach((value, key) => {
-    if (!value) emptyNames.push(key);
-  });
-  emptyNames.forEach((name) => url.delete(name));
-};
-
 export const Main = () => {
+  const urlSearchParams = SearchParams.create(window.location.search);
+
+  const [filterValues, setFilterValues] = useState({
+    category: urlSearchParams.get('category')?.split(','),
+    searchValue: urlSearchParams.get('searchValue'),
+  } as FilterValues);
+
   const [data, setData] = useState([] as Product[]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [filterValues, setFilterValues] = useState({} as UrlSearchKeys);
-
-  const handleFilterSubmit = (newValue: UrlSearchKeys) => {
+  const handleFilterSubmit = (newValue: FilterValues) => {
     setFilterValues({ ...filterValues, ...newValue });
   };
 
@@ -38,10 +32,10 @@ export const Main = () => {
     try {
       setIsLoading(true);
 
-      const newUrlSearchParams = createUrlSearchParams(filterValues);
-      deleteUndefURLFields(newUrlSearchParams);
+      const newUrlParams = SearchParams.createFromFilterValues(filterValues).toString();
+      PageURL.update(newUrlParams);
 
-      const newData = await getProducts(newUrlSearchParams.toString());
+      const newData = await getProducts(newUrlParams);
       setData(newData);
     } catch (e) {
       console.log(e);
@@ -56,7 +50,7 @@ export const Main = () => {
 
   return (
     <main className="main">
-      <FilterBlock submitFilter={handleFilterSubmit} />
+      <FilterBlock submitFilter={handleFilterSubmit} filterValues={filterValues} />
       <SearchBar changeSearchValue={handleFilterSubmit} />
       {!isLoading && data.length > 0 ? <ProductsList products={data} /> : <div>Loading...</div>}
     </main>
