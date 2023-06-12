@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 
 import './style.css';
-import { UrlSearchKeys } from '../../pages/Main/Main';
+import { FilterValues } from '../../pages/Main/Main';
 
 interface SearchBarProps {
-  changeSearchValue: (value: UrlSearchKeys) => void;
+  changeSearchValue: (value: FilterValues) => void;
+  filterValues: FilterValues;
 }
 
-export const SearchBar = ({ changeSearchValue }: SearchBarProps) => {
-  const [value, setValue] = useState('');
+export const SearchBar = ({ changeSearchValue, filterValues }: SearchBarProps) => {
+  const [value, setValue] = useState(filterValues.searchValue);
 
   const changeValue = (e: React.FormEvent<HTMLInputElement>) => {
     const value = (e.target as HTMLInputElement)?.value;

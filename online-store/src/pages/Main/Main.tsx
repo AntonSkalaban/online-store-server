@@ -51,7 +51,7 @@ export const Main = () => {
   return (
     <main className="main">
       <FilterBlock submitFilter={handleFilterSubmit} filterValues={filterValues} />
-      <SearchBar changeSearchValue={handleFilterSubmit} />
+      <SearchBar changeSearchValue={handleFilterSubmit} filterValues={filterValues} />
       {!isLoading && data.length > 0 ? <ProductsList products={data} /> : <div>Loading...</div>}
     </main>
   );
