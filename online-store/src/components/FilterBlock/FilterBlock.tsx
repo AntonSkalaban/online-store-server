@@ -1,50 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { getCategories } from '../../http/http';
+import React, { useState } from 'react';
 import { FilterValues } from '../../pages/Main/Main';
 import './style.css';
+import { CheckboxesBlock } from './CheckboxesBlock.tsx/CheckboxesBlock';
 export interface FilterBlockProps {
   submitFilter: (value: FilterValues) => void;
   filterValues: FilterValues;
 }
 
 export const FilterBlock = ({ submitFilter, filterValues }: FilterBlockProps) => {
-  const [categories, setCategories] = useState([] as { name: string; checked: boolean }[]);
-
-  const createInitialState = async () => {
-    try {
-      const checkedCategories = filterValues.category;
-
-      const data = await getCategories();
-
-      setCategories(
-        data.map((category) => {
-          return {
-            name: category.name,
-            checked: checkedCategories?.includes(category.name) ?? false,
-          };
-        })
-      );
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  useEffect(() => {
-    createInitialState();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const name = e.target.name;
-    setCategories(
-      categories.map((cat) => {
-        return cat.name === name ? { ...cat, checked: !cat.checked } : cat;
-      })
-    );
-  };
+  const [filterVal, setFilterVal] = useState({ category: [] as string[], brand: [] as string[] });
 
   const hanldeClick = () => {
-    submitFilter({ category: categories.filter((cat) => cat.checked).map((el) => el.name) });
+    submitFilter(filterVal);
+  };
+
+  const changeFilterValue = (key: keyof FilterValues, checkboxes: string[]) => {
+    setFilterVal({ ...filterVal, [key]: checkboxes });
   };
 
   return (
@@ -53,17 +24,11 @@ export const FilterBlock = ({ submitFilter, filterValues }: FilterBlockProps) =>
         e.preventDefault();
       }}
     >
-      <div>
-        <p>Category</p>
-        {categories.map(({ name, checked }) => {
-          return (
-            <label key={name}>
-              <input type="checkbox" name={name} checked={checked} onChange={handleChange} />
-              {name}
-            </label>
-          );
-        })}
-      </div>
+      <CheckboxesBlock
+        blockName={'category'}
+        filterValues={filterValues}
+        changeFilterValue={changeFilterValue}
+      />
       <button onClick={hanldeClick}>Apply filter</button>
     </form>
   );

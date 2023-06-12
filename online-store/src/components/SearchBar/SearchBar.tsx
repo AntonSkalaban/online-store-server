@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import './style.css';
 import { FilterValues } from '../../pages/Main/Main';
 
@@ -9,7 +8,7 @@ interface SearchBarProps {
 }
 
 export const SearchBar = ({ changeSearchValue, filterValues }: SearchBarProps) => {
-  const [value, setValue] = useState(filterValues.searchValue);
+  const [value, setValue] = useState(filterValues.searchValue ?? '');
 
   const changeValue = (e: React.FormEvent<HTMLInputElement>) => {
     const value = (e.target as HTMLInputElement)?.value;
