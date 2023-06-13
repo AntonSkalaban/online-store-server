@@ -3,19 +3,18 @@ import { FilterValues } from '../../pages/Main/Main';
 import './style.css';
 import { CheckboxesBlock } from './CheckboxesBlock.tsx/CheckboxesBlock';
 export interface FilterBlockProps {
-  submitFilter: (value: FilterValues) => void;
-  filterValues: FilterValues;
+  onSubmit: (value: FilterValues) => void;
 }
 
-export const FilterBlock = ({ submitFilter, filterValues }: FilterBlockProps) => {
-  const [filterVal, setFilterVal] = useState({ category: [] as string[], brand: [] as string[] });
+export const FilterBlock = ({ onSubmit }: FilterBlockProps) => {
+  const [formState, setFormState] = useState({} as FilterValues);
 
-  const hanldeClick = () => {
-    submitFilter(filterVal);
+  const changeFormState = (key: keyof FilterValues, checkboxes: string[]) => {
+    setFormState({ ...formState, [key]: checkboxes });
   };
 
-  const changeFilterValue = (key: keyof FilterValues, checkboxes: string[]) => {
-    setFilterVal({ ...filterVal, [key]: checkboxes });
+  const hanldeClick = () => {
+    onSubmit(formState);
   };
 
   return (
@@ -24,11 +23,7 @@ export const FilterBlock = ({ submitFilter, filterValues }: FilterBlockProps) =>
         e.preventDefault();
       }}
     >
-      <CheckboxesBlock
-        blockName={'category'}
-        filterValues={filterValues}
-        changeFilterValue={changeFilterValue}
-      />
+      <CheckboxesBlock blockName={'category'} changeFormState={changeFormState} />
       <button onClick={hanldeClick}>Apply filter</button>
     </form>
   );

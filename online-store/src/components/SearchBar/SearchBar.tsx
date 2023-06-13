@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import './style.css';
 import { FilterValues } from '../../pages/Main/Main';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 
 interface SearchBarProps {
-  changeSearchValue: (value: FilterValues) => void;
-  filterValues: FilterValues;
+  onSubmit: (value: FilterValues) => void;
 }
 
-export const SearchBar = ({ changeSearchValue, filterValues }: SearchBarProps) => {
-  const [value, setValue] = useState(filterValues.searchValue ?? '');
+export const SearchBar = ({ onSubmit }: SearchBarProps) => {
+  const searchedValue = useSelector((state: RootState) => state.filterValues.searchValue);
+
+  const [value, setValue] = useState(searchedValue);
 
   const changeValue = (e: React.FormEvent<HTMLInputElement>) => {
     const value = (e.target as HTMLInputElement)?.value;
@@ -16,7 +19,7 @@ export const SearchBar = ({ changeSearchValue, filterValues }: SearchBarProps) =
   };
 
   const handleClick = () => {
-    changeSearchValue({ searchValue: value });
+    onSubmit({ searchValue: value });
   };
 
   return (

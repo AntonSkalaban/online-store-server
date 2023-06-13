@@ -5,9 +5,14 @@ import { ProductCard } from '../ProductCard/ProductCard';
 
 interface ProductsListProps {
   products: Product[];
+  isLoading: boolean;
 }
 
-export const ProductsList = ({ products }: ProductsListProps) => {
+export const ProductsList = ({ products, isLoading }: ProductsListProps) => {
+  if (isLoading) return <div>Loading...</div>;
+
+  if (!isLoading && !products.length) return <div>Not found</div>;
+
   return (
     <div className="proucts-list">
       {products.map((product) => {

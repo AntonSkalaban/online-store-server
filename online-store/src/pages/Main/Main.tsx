@@ -7,6 +7,9 @@ import { PageURL } from '../../helpers/PageURL';
 import { SearchParams } from '../../helpers/SearchParams';
 import { Product } from 'types';
 import './style.css';
+import { RootState } from '../../store/store';
+import { useSelector, useDispatch } from 'react-redux';
+import { update } from '../../store/filterValuesSlice';
 
 export interface FilterValues {
   category?: string[];
@@ -14,25 +17,17 @@ export interface FilterValues {
 }
 
 export const Main = () => {
-  const urlSearchParams = SearchParams.create(window.location.search);
-
-  const [filterValues, setFilterValues] = useState({
-    category: urlSearchParams.get('category')?.split(','),
-    searchValue: urlSearchParams.get('searchValue'),
-  } as FilterValues);
+  const filterValues = useSelector((state: RootState) => state.filterValues);
+  const dispatch = useDispatch();
 
   const [data, setData] = useState([] as Product[]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleFilterSubmit = (newValue: FilterValues) => {
-    setFilterValues({ ...filterValues, ...newValue });
-  };
-
   const getData = useCallback(async () => {
     try {
       setIsLoading(true);
-
       const newUrlParams = SearchParams.createFromFilterValues(filterValues).toString();
+
       PageURL.update(newUrlParams);
 
       const newData = await getProducts(newUrlParams);
@@ -44,15 +39,24 @@ export const Main = () => {
     }
   }, [filterValues]);
 
+  const changeFilterValue = (filterValues: FilterValues) => {
+    dispatch(update(filterValues));
+  };
+
+  const handleFilterSubmit = (filterValues: FilterValues) => {
+    changeFilterValue(filterValues);
+  };
+
   useEffect(() => {
     getData();
   }, [getData]);
 
   return (
     <main className="main">
-      <FilterBlock submitFilter={handleFilterSubmit} filterValues={filterValues} />
-      <SearchBar changeSearchValue={handleFilterSubmit} filterValues={filterValues} />
-      {!isLoading && data.length > 0 ? <ProductsList products={data} /> : <div>Loading...</div>}
+      <FilterBlock onSubmit={handleFilterSubmit} />
+      <SearchBar onSubmit={handleFilterSubmit} />
+
+      <ProductsList products={data} isLoading={isLoading} />
     </main>
   );
 };
