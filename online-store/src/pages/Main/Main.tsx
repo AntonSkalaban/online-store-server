@@ -11,7 +11,7 @@ import { productAPI } from '../../services/productService';
 import './style.css';
 
 export interface FilterValues {
-  category?: string[];
+  category?: string[] | string;
   searchValue?: string;
 }
 
@@ -30,7 +30,7 @@ export const Main = () => {
   const changeFilterValue = (filterValues: FilterValues) => {
     dispatch(update(filterValues));
   };
-
+  console.log(data);
   return (
     <main className="main">
       <FilterBlock onSubmit={changeFilterValue} />

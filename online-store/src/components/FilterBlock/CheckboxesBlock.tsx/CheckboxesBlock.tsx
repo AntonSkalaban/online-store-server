@@ -4,7 +4,7 @@ import { checkboxAPI } from '../../../services/checkboxService';
 
 export interface CheckboxesBlockProps {
   blockName: keyof FilterValues;
-  checkedCheckboxes?: string[];
+  checkedCheckboxes?: string[] | string;
   changeFormState: (obj: Record<string, string | string[] | null>) => void;
 }
 

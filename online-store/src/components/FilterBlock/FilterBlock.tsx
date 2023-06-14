@@ -28,15 +28,11 @@ export const FilterBlock = ({ onSubmit }: FilterBlockProps) => {
   };
 
   const handleResetAllClick = () => {
-    console.log('reset');
-    console.log(formState);
     const resetedState = { ...formState };
     resetAllFields(resetedState);
 
     changeFormState(resetedState);
     onSubmit(resetedState);
-    console.log(resetedState);
-    console.log(formState);
   };
 
   return (

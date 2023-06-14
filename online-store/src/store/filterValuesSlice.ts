@@ -3,14 +3,14 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 export interface FilterValues {
-  category?: string[];
+  category?: string[] | string;
   searchValue?: string;
 }
 
 const searchParams = SearchParams.create(window.location.search);
 
 const initialState: FilterValues = {
-  category: searchParams.get('category')?.split(','),
+  category: searchParams.get('category')?.split(',') ?? '',
   searchValue: searchParams.get('searchValue') ?? '',
 };
 
