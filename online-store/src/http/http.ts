@@ -1,11 +1,5 @@
-import { Category, Product } from '../types';
+import { Category } from '../types';
 import { url } from './const';
-
-export const getProducts = async (params: string): Promise<Product[]> => {
-  const res = await fetch(`${url}/products${params ? '?' + params : ''}`);
-  const data = await res.json();
-  return data;
-};
 
 export const getCategories = async (): Promise<Category[]> => {
   const res = await fetch(`${url}/categories`);

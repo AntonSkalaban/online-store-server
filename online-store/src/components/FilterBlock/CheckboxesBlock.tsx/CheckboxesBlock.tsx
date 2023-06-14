@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FilterValues } from '../../../pages/Main/Main';
-import { getCategories } from '../../../http/http';
 import { RootState } from '../../../store/store';
 import { useSelector } from 'react-redux';
+import { checkboxAPI } from '../../../services/checkboxService';
 
 export interface CheckboxesBlockProps {
   blockName: keyof FilterValues;
@@ -20,23 +20,25 @@ export const CheckboxesBlock = ({ blockName, changeFormState }: CheckboxesBlockP
 
   const checkedCheckboxes = useSelector((state: RootState) => state.filterValues[blockName]);
 
-  const createInitialState = async () => {
-    try {
-      const data = await getCategories();
+  const { data, isLoading } = checkboxAPI.useGetCheckboxesNameQuery(null);
 
-      setCheckboxes(
-        data.map((item) => {
-          return {
-            id: item._id,
-            name: item.name,
-            checked: checkedCheckboxes?.includes(item.name) ?? false,
-          };
-        })
-      );
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  const createInitialState = useCallback(() => {
+    if (!data) return;
+
+    setCheckboxes(
+      data.map((item) => {
+        return {
+          id: item._id,
+          name: item.name,
+          checked: checkedCheckboxes?.includes(item.name) ?? false,
+        };
+      })
+    );
+  }, [checkedCheckboxes, data]);
+
+  useEffect(() => {
+    createInitialState();
+  }, [createInitialState]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;
@@ -52,10 +54,7 @@ export const CheckboxesBlock = ({ blockName, changeFormState }: CheckboxesBlockP
     );
   };
 
-  useEffect(() => {
-    createInitialState();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  if (isLoading) return <div>Loading...</div>;
 
   return (
     <div>

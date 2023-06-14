@@ -13,7 +13,7 @@ export const FilterBlock = ({ onSubmit }: FilterBlockProps) => {
     setFormState({ ...formState, [key]: checkboxes });
   };
 
-  const hanldeClick = () => {
+  const hanldeSubmitClick = () => {
     onSubmit(formState);
   };
 
@@ -24,7 +24,7 @@ export const FilterBlock = ({ onSubmit }: FilterBlockProps) => {
       }}
     >
       <CheckboxesBlock blockName={'category'} changeFormState={changeFormState} />
-      <button onClick={hanldeClick}>Apply filter</button>
+      <button onClick={hanldeSubmitClick}>Apply filter</button>
     </form>
   );
 };
