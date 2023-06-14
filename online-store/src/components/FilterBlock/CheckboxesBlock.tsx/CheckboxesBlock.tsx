@@ -1,12 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { FilterValues } from '../../../pages/Main/Main';
-import { RootState } from '../../../store/store';
-import { useSelector } from 'react-redux';
 import { checkboxAPI } from '../../../services/checkboxService';
 
 export interface CheckboxesBlockProps {
   blockName: keyof FilterValues;
-  changeFormState: (key: keyof FilterValues, checkboxesName: string[]) => void;
+  checkedCheckboxes?: string[];
+  changeFormState: (obj: Record<string, string | string[] | null>) => void;
 }
 
 export interface Checkbox {
@@ -15,10 +14,12 @@ export interface Checkbox {
   checked: boolean;
 }
 
-export const CheckboxesBlock = ({ blockName, changeFormState }: CheckboxesBlockProps) => {
+export const CheckboxesBlock = ({
+  blockName,
+  checkedCheckboxes,
+  changeFormState,
+}: CheckboxesBlockProps) => {
   const [checkboxes, setCheckboxes] = useState([] as Checkbox[]);
-
-  const checkedCheckboxes = useSelector((state: RootState) => state.filterValues[blockName]);
 
   const { data, isLoading } = checkboxAPI.useGetCheckboxesNameQuery(null);
 
@@ -48,10 +49,7 @@ export const CheckboxesBlock = ({ blockName, changeFormState }: CheckboxesBlockP
     });
 
     setCheckboxes(newState);
-    changeFormState(
-      blockName,
-      newState.filter((el) => el.checked).map((el) => el.name)
-    );
+    changeFormState({ [blockName]: newState.filter((el) => el.checked).map((el) => el.name) });
   };
 
   if (isLoading) return <div>Loading...</div>;

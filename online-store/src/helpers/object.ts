@@ -7,3 +7,10 @@ export const copyObjecWithExistFields = (obj: FilterValues) => {
   );
   return clone;
 };
+
+export const resetAllFields = (obj: Record<string, string | string[] | null>) => {
+  Object.keys(obj).forEach((key) => {
+    obj[key] = null;
+  });
+  return obj;
+};
