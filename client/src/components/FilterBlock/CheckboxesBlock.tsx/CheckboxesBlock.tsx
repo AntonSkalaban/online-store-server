@@ -1,11 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { FilterValues } from '../../../pages/Main/Main';
 import { checkboxAPI } from '../../../services/checkboxService';
+import { FilterFormValues, updateForm } from '../../../store/filterFormSlice';
+import { useDispatch } from 'react-redux';
 
 export interface CheckboxesBlockProps {
   blockName: keyof FilterValues;
   checkedCheckboxes?: string[] | string;
-  changeFormState: (obj: Record<string, string | string[] | null>) => void;
+  //changeFormState: (obj: Record<string, string | string[] | null>) => void;
 }
 
 export interface Checkbox {
@@ -17,11 +19,14 @@ export interface Checkbox {
 export const CheckboxesBlock = ({
   blockName,
   checkedCheckboxes,
-  changeFormState,
-}: CheckboxesBlockProps) => {
+}: // changeFormState,
+CheckboxesBlockProps) => {
   const [checkboxes, setCheckboxes] = useState([] as Checkbox[]);
 
   const { data, isLoading } = checkboxAPI.useGetCheckboxesNameQuery(null);
+
+  const dispatch = useDispatch();
+  const changeFormState2 = (state: FilterFormValues) => dispatch(updateForm(state));
 
   const createInitialState = useCallback(() => {
     if (!data) return;
@@ -49,7 +54,7 @@ export const CheckboxesBlock = ({
     });
 
     setCheckboxes(newState);
-    changeFormState({ [blockName]: newState.filter((el) => el.checked).map((el) => el.name) });
+    changeFormState2({ [blockName]: newState.filter((el) => el.checked).map((el) => el.name) });
   };
 
   if (isLoading) return <div>Loading...</div>;

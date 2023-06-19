@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FilterValues } from '../../pages/Main/Main';
 import './style.css';
 import { CheckboxesBlock } from './CheckboxesBlock.tsx/CheckboxesBlock';
 import { resetAllFields } from '../../helpers/object';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
+import { FilterFormValues, updateForm } from '../../store/filterFormSlice';
+
 export enum Name {
   category = 'category',
 }
@@ -14,21 +16,23 @@ export interface FilterBlockProps {
 
 export const FilterBlock = ({ onSubmit }: FilterBlockProps) => {
   const filterValues = useSelector((state: RootState) => state.filterValues);
+  const filterFormValues = useSelector((state: RootState) => state.formValues);
 
-  const [formState, setFormState] = useState({
-    category: filterValues.category,
-  } as FilterValues);
+  const dispatch = useDispatch();
+  const changeFormState = (state: FilterFormValues) => dispatch(updateForm(state));
 
-  const changeFormState = (obj: Record<string, string | string[] | null>) => {
-    setFormState({ ...formState, ...obj });
-  };
+  console.log(filterFormValues);
+  useEffect(() => {
+    changeFormState({ category: filterValues.category });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const hanldeSubmitClick = () => {
-    onSubmit(formState);
+    onSubmit(filterFormValues);
   };
 
   const handleResetAllClick = () => {
-    const resetedState = { ...formState };
+    const resetedState = { ...filterFormValues };
     resetAllFields(resetedState);
 
     changeFormState(resetedState);
@@ -42,11 +46,7 @@ export const FilterBlock = ({ onSubmit }: FilterBlockProps) => {
       }}
     >
       <p onClick={handleResetAllClick}>Reset all</p>
-      <CheckboxesBlock
-        blockName={Name.category}
-        checkedCheckboxes={filterValues.category}
-        changeFormState={changeFormState}
-      />
+      <CheckboxesBlock blockName={Name.category} checkedCheckboxes={filterFormValues.category} />
       <button onClick={hanldeSubmitClick}>Apply filter</button>
     </form>
   );
