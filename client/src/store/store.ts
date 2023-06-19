@@ -1,13 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-import filterValuesSlice from './filterValuesSlice';
-import filterFormSlice from './filterFormSlice';
+import GlobalFilterSlice from './GlobalFilterSlice';
+import FormFilterSlice from './FormFilterSlice';
 import { productAPI } from '../services/productService';
 import { checkboxAPI } from '../services/checkboxService';
 
 export const store = configureStore({
   reducer: {
-    filterValues: filterValuesSlice,
-    formValues: filterFormSlice,
+    globalFilterValues: GlobalFilterSlice,
+    formFilterValues: FormFilterSlice,
     [productAPI.reducerPath]: productAPI.reducer,
     [checkboxAPI.reducerPath]: checkboxAPI.reducer,
   },

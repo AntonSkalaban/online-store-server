@@ -1,5 +1,5 @@
-import { FilterValues } from '../pages/Main/Main';
-import { copyObjecWithExistFields } from './object';
+import { GlobalFilterValues } from '../store/GlobalFilterSlice';
+import { CustomObject } from './CustomObject';
 
 export class SearchParams {
   static create(params: string | object) {
@@ -7,8 +7,8 @@ export class SearchParams {
     return new URLSearchParams(params);
   }
 
-  static createFromFilterValues(filterValues: FilterValues) {
-    const filterValuesWithExistFields = copyObjecWithExistFields(filterValues);
+  static createFromFilterValues(filterValues: GlobalFilterValues) {
+    const filterValuesWithExistFields = CustomObject.copyWithExistField(filterValues);
     const params = SearchParams.create(filterValuesWithExistFields);
     return params;
   }
