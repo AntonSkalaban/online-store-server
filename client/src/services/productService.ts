@@ -1,5 +1,5 @@
-import { SearchParams } from './../helpers/SearchParams';
-import { FilterValues } from './../store/filterValuesSlice';
+import { SearchParams } from '../helpers/SearchParams';
+import { FilterValues } from '../store/filterValuesSlice';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 import { Product } from '../types';
 
