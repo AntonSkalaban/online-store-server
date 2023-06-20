@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { ProductsList } from '../../components/ProductsList/ProductsList';
 import { SearchBar } from '../../components/SearchBar/SearchBar';
-import { FilterForm } from '../../components/FilterBlock/FilterForm';
+import { FilterForm } from '../../components/FilterForm/FilterForm';
 import { PageURL } from '../../helpers/PageURL';
 import { SearchParams } from '../../helpers/SearchParams';
 import { RootState } from '../../store/store';
@@ -29,8 +29,10 @@ export const Main = () => {
   return (
     <main className="main">
       <FilterForm onSubmit={changeFilterValue} />
-      <SearchBar onSubmit={changeFilterValue} />
-      <ProductsList data={data} isLoading={isFetching} />
+      <div className="main__main">
+        <SearchBar onSubmit={changeFilterValue} />
+        <ProductsList data={data} isLoading={isFetching} />
+      </div>
     </main>
   );
 };

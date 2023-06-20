@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import './style.css';
-import { CheckboxesList } from './CheckboxesList.tsx/CheckboxesList';
+import { CheckboxesBlock } from './CheckboxesBlock.tsx/CheckboxesBlock';
 import { CustomObject } from '../../helpers/CustomObject';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
@@ -37,12 +37,13 @@ export const FilterForm = ({ onSubmit }: FilterBlockProps) => {
 
   return (
     <form
+      className="filter-form"
       onSubmit={(e) => {
         e.preventDefault();
       }}
     >
       <p onClick={handleResetClick}>Reset</p>
-      <CheckboxesList
+      <CheckboxesBlock
         blockName={FormFilterFields.Category}
         checkedCheckboxes={formFilterValues.category}
       />

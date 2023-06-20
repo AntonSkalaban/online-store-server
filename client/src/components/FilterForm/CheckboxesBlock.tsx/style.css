@@ -1,0 +1,8 @@
+.checkboxes__title{
+    text-align: center;
+}
+.checkboxes__list {
+    width: 100%;
+    height: 100px;
+    overflow: scroll;
+}
