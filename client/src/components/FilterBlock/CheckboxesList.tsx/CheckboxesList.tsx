@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { checkboxAPI } from '../../../services/checkboxService';
-import { FormFilterValues, update } from '../../../store/FormFilterSlice';
+import { FormFilterValues, updateFormState } from '../../../store/FormFilterSlice';
 import { useDispatch } from 'react-redux';
 
 export interface CheckboxesListProps {
@@ -20,7 +20,7 @@ export const CheckboxesList = ({ blockName, checkedCheckboxes }: CheckboxesListP
   const { data, isLoading } = checkboxAPI.useGetCheckboxesNameQuery(null);
 
   const dispatch = useDispatch();
-  const changeFilterFormState = (state: FormFilterValues) => dispatch(update(state));
+  const changeFilterFormState = (state: FormFilterValues) => dispatch(updateFormState(state));
 
   const createInitialState = useCallback(() => {
     if (!data) return;

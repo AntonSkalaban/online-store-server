@@ -11,9 +11,7 @@ interface SearchBarProps {
 
 export const SearchBar = ({ onSubmit }: SearchBarProps) => {
   const searchedValue = useSelector((state: RootState) => state.globalFilterValues.searchValue);
-  console.log(searchedValue);
-  const [value, setValue] = useState(searchedValue ?? '');
-  console.log(value, searchedValue);
+  const [value, setValue] = useState(searchedValue);
 
   const changeValue = (e: React.FormEvent<HTMLInputElement>) => {
     const value = (e.target as HTMLInputElement)?.value;

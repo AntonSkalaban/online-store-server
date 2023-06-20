@@ -4,12 +4,9 @@ import { CheckboxesList } from './CheckboxesList.tsx/CheckboxesList';
 import { CustomObject } from '../../helpers/CustomObject';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
-import { update } from '../../store/FormFilterSlice';
+import { FormFilterFields, updateFormState } from '../../store/FormFilterSlice';
 import { GlobalFilterValues } from '../../store/GlobalFilterSlice';
 
-export enum Name {
-  category = 'category',
-}
 export interface FilterBlockProps {
   onSubmit: (value: GlobalFilterValues) => void;
 }
@@ -19,7 +16,7 @@ export const FilterForm = ({ onSubmit }: FilterBlockProps) => {
   const formFilterValues = useSelector((state: RootState) => state.formFilterValues);
 
   const dispatch = useDispatch();
-  const changeFormState = (state: GlobalFilterValues) => dispatch(update(state));
+  const changeFormState = (state: GlobalFilterValues) => dispatch(updateFormState(state));
 
   useEffect(() => {
     changeFormState({ category: globalFilterValues.category });
@@ -30,8 +27,8 @@ export const FilterForm = ({ onSubmit }: FilterBlockProps) => {
     onSubmit(formFilterValues);
   };
 
-  const handleResetAllClick = () => {
-    const stateCopy = { ...globalFilterValues };
+  const handleResetClick = () => {
+    const stateCopy = { ...formFilterValues };
     CustomObject.resetAllFields(stateCopy);
 
     changeFormState(stateCopy);
@@ -44,8 +41,11 @@ export const FilterForm = ({ onSubmit }: FilterBlockProps) => {
         e.preventDefault();
       }}
     >
-      <p onClick={handleResetAllClick}>Reset all</p>
-      <CheckboxesList blockName={Name.category} checkedCheckboxes={formFilterValues.category} />
+      <p onClick={handleResetClick}>Reset</p>
+      <CheckboxesList
+        blockName={FormFilterFields.Category}
+        checkedCheckboxes={formFilterValues.category}
+      />
       <button onClick={hanldeSubmitClick}>Apply filter</button>
     </form>
   );

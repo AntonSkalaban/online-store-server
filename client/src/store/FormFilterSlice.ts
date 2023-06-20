@@ -1,8 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
+export enum FormFilterFields {
+  Category = 'category',
+}
+
 export interface FormFilterValues {
-  category?: string[] | string;
+  [FormFilterFields.Category]?: string[] | string;
 }
 
 const initialState: FormFilterValues = {
@@ -13,12 +17,12 @@ export const FormFilterValuesSlice = createSlice({
   name: 'formFilterValues',
   initialState,
   reducers: {
-    update: (state, action: PayloadAction<FormFilterValues>) => {
+    updateFormState: (state, action: PayloadAction<FormFilterValues>) => {
       return { ...state, ...action.payload };
     },
   },
 });
 
-export const { update } = FormFilterValuesSlice.actions;
+export const { updateFormState } = FormFilterValuesSlice.actions;
 
 export default FormFilterValuesSlice.reducer;
