@@ -16,7 +16,7 @@
     "mongoose": "^7.2.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "nodemon": "^1.14.9"
   },
   "description": ""
 }
