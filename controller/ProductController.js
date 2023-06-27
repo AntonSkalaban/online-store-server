@@ -30,6 +30,16 @@ class ProductController {
             console.log(e.message);
         }   
     }
+
+    async getBrands(req, res) {
+        try {
+            const brands = await ProductService.getBrands()
+            return res.json(brands)
+        } catch(e){ 
+            res.status(500).json(e)
+            console.log(e.message);
+        }   
+    }
 }
 
 export default new ProductController()

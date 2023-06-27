@@ -33,6 +33,11 @@ class ProductService {
         if(!id) throw new Error('ID not specified');
         return await Product.findById(id);
     }
+
+    async getBrands() {
+        console.log('find')
+        return await Product.find({}, {brand: 1}).sort({brand: 1})
+    }
 }
 
 export default new ProductService();
