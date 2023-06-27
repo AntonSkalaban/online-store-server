@@ -7,23 +7,36 @@ class ProductService {
     }
 
     async getAll(params) {
-       const obj = {}
+       const findParams = {};
+       const sortParams = {};
 
         if (params?.category) {
-            obj.category = params.category.split(',')
+            findParams.category = params.category.split(',')
         }
 
         if (params?.searchValue) {
             const re = new RegExp(params.searchValue, 'i');
-            obj['$or'] = [{category: re}, {name: re}, {brand: re}] ;
+            findParams['$or'] = [{category: re}, {name: re}, {brand: re}] ;
         }
 
-        return await Product.find(obj)
+        if (params?.sortBy) {
+            const [sortBy, sortFrom] = params?.sortBy.split('-')
+            sortParams[sortBy] =  sortFrom === 'ASC' ? 1 : -1;
+        } else {
+            sortParams.price = 1;
+        }
+
+        return await Product.find(findParams).sort(sortParams)
     }
 
     async getOne(id) {            
         if(!id) throw new Error('ID not specified');
         return await Product.findById(id);
+    }
+
+    async getBrands() {
+        console.log('find')
+        return await Product.find({}, {brand: 1}).sort({brand: 1})
     }
 }
 
