@@ -1,0 +1,40 @@
+.about-page {
+    height: 100%;
+   
+    align-items: center;
+   
+}
+
+.about__main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.product__images-container{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product__small-images-container{
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.product__small-image-container{
+    width: 90%;
+}
+
+.product__big-image-container{
+    width: 80%;
+    height: 300px;
+}
+
+.poduct__info-container {
+    width: 50%;
+}

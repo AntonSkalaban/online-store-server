@@ -18,7 +18,7 @@ export interface Checkbox {
 export const CheckboxesBlock = ({ blockName, checkedCheckboxes }: CheckboxesListProps) => {
   const [checkboxes, setCheckboxes] = useState([] as Checkbox[]);
 
-  const { data, isLoading } = checkboxAPI.useGetCheckboxesNameQuery(null);
+  const { data, isLoading } = checkboxAPI.useGetCheckboxesNameQuery();
 
   const dispatch = useDispatch();
   const changeFilterFormState = (state: FormFilterValues) => dispatch(updateFormState(state));

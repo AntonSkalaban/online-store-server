@@ -5,10 +5,8 @@ export const checkboxAPI = createApi({
   reducerPath: 'checkboxAPI',
   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000' }),
   endpoints: (build) => ({
-    getCheckboxesName: build.query<Category[], null>({
-      query: () => ({
-        url: `/categories`,
-      }),
+    getCheckboxesName: build.query<Category[], void>({
+      query: () => `/categories`,
     }),
   }),
 });

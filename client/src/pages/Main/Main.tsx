@@ -11,19 +11,19 @@ import { productAPI } from '../../services/productService';
 import './style.css';
 
 export const Main = () => {
-  const filterValues = useSelector((state: RootState) => state.globalFilterValues);
+  const globalfilterValues = useSelector((state: RootState) => state.globalFilterValues);
   const dispatch = useDispatch();
 
-  const { data, isFetching } = productAPI.useGetFilterdProductsQuery(filterValues);
+  const { data, isFetching } = productAPI.useGetFilterdProductsQuery(globalfilterValues);
 
   useEffect(() => {
-    const newUrlParams = SearchParams.createFromFilterValues(filterValues).toString();
+    const newUrlParams = SearchParams.createFromFilterValues(globalfilterValues).toString();
 
     PageURL.update(newUrlParams);
-  }, [filterValues]);
+  }, [globalfilterValues]);
 
-  const changeFilterValue = (filterValues: GlobalFilterValues) => {
-    dispatch(updateGlobalState(filterValues));
+  const changeFilterValue = (values: GlobalFilterValues) => {
+    dispatch(updateGlobalState(values));
   };
 
   return (

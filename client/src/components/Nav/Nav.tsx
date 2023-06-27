@@ -13,9 +13,6 @@ export const Nav = () => {
       <NavLink to="/" style={setActive}>
         {Pages.Main}
       </NavLink>
-      <NavLink to="/about" style={setActive}>
-        {Pages.About}
-      </NavLink>
       <NavLink to="/cart" style={setActive}>
         {Pages.Cart}
       </NavLink>

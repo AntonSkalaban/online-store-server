@@ -23,9 +23,7 @@ class ProductService {
 
     async getOne(id) {            
         if(!id) throw new Error('ID not specified');
-
-        const product = await Product.findById(id);
-        return res.json(product);
+        return await Product.findById(id);
     }
 }
 

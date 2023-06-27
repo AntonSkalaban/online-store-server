@@ -1,0 +1,13 @@
+.carousel {
+    width:  1000px;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.carousel__container {
+    position: relative;
+    height: 100%;
+    display: flex;
+    transition: 'all ease-in-out 1s',
+}
