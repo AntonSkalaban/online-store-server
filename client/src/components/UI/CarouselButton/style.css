@@ -1,9 +1,0 @@
-.carusel__btn {
-    position: absolute;
-    top: 0;
-    z-index: 2;
-}
-
-.carusel__btn_next {
-    right: 0;
-}
