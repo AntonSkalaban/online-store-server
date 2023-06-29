@@ -22,6 +22,7 @@ class ProductService {
         if (params?.sortBy) {
             const [sortBy, sortFrom] = params?.sortBy.split('-')
             sortParams[sortBy] =  sortFrom === 'ASC' ? 1 : -1;
+            console.log(sortParams)
         } else {
             sortParams.price = 1;
         }
