@@ -7,25 +7,52 @@ class ProductService {
     }
 
     async getAll(params) {
-       const findParams = {};
-       const sortParams = {};
+        const findParams = {};
+        const sortParams = {}
+    Object.entries(params).forEach(([key, ...val]) => {
+        const valueString = val.toString()
+            switch (key) {
+                case 'category':
+                    findParams.category = valueString.split(',');
+                    break;
+                case 'brand':
+                    findParams.brand = valueString.split(',');
+                    break;                                                 
+                case 'searchValue':
+                    findParams.searchValue = valueString;
+                    break; 
+               case 'sortBy':
 
-        if (params?.category) {
-            findParams.category = params.category.split(',')
-        }
+                const [sortBy, sortFrom] = valueString.split('-')
+                     sortParams[sortBy] =  sortFrom === 'ASC' ? 1 : -1;
+                    break; 
+                default:
+                    break;
+            }
+        })
+     ;
 
-        if (params?.searchValue) {
-            const re = new RegExp(params.searchValue, 'i');
-            findParams['$or'] = [{category: re}, {name: re}, {brand: re}] ;
-        }
+     console.log(findParams, sortParams)
+        // if (params?.category) {
+        //     findParams.category = params.category.split(',')
+        // }
 
-        if (params?.sortBy) {
-            const [sortBy, sortFrom] = params?.sortBy.split('-')
-            sortParams[sortBy] =  sortFrom === 'ASC' ? 1 : -1;
-        } else {
-            sortParams.price = 1;
-        }
+        // if (params?.brand) {
+        //     findParams.brand = params.brand.split(',')
+        // }
 
+        // if (params?.searchValue) {
+        //     const re = new RegExp(params.searchValue, 'i');
+        //     findParams['$or'] = [{category: re}, {name: re}, {brand: re}] ;
+        // }
+
+        // if (params?.sortBy) {
+        //     const [sortBy, sortFrom] = params?.sortBy.split('-')
+        //     sortParams[sortBy] =  sortFrom === 'ASC' ? 1 : -1;
+        // } else {
+        //     sortParams.price = 1;
+        // }
+        // console.log(findParams)
         return await Product.find(findParams).sort(sortParams)
     }
 
