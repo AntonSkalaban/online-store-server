@@ -1,6 +1,7 @@
 import Product from '../model/Product.js';
 
 class ProductService {
+
   async create(product) {
     const createdProduct = await Product.create(product);
     return createdProduct;
@@ -41,6 +42,7 @@ class ProductService {
   async getBrands() {
     return await Product.find({}, { brand: 1 }).sort({ brand: 1 }).distinct('brand');
   }
+
 }
 
 export default new ProductService();
