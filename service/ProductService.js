@@ -35,8 +35,7 @@ class ProductService {
     }
 
     async getBrands() {
-        console.log('find')
-        return await Product.find({}, {brand: 1}).sort({brand: 1})
+        return await Product.find({}, {brand: 1}).sort({brand: 1}).distinct('brand')
     }
 }
 
