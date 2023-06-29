@@ -33,7 +33,6 @@ class ProductController {
   }
 
   async getBrands(req, res) {
-    console.log('brand: ');
     try {
       const brands = await ProductService.getBrands();
       return res.json(brands);
