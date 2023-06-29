@@ -22,6 +22,7 @@ class ProductController {
     }
 
     async getOne(req, res) {
+        console.log('id')
         try {
             const product = await ProductService.getOne(req.params.id)
             return res.json(product)
@@ -32,6 +33,7 @@ class ProductController {
     }
 
     async getBrands(req, res) {
+        console.log('brand: ')
         try {
             const brands = await ProductService.getBrands()
             return res.json(brands)
