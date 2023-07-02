@@ -43,6 +43,10 @@ class ProductService {
     return await Product.find({}, { brand: 1 }).sort({ brand: 1 }).distinct('brand');
   }
 
+  async getPrices() {
+    return await Product.find({}, { price: 1 }).sort({ price: 1 }).distinct('price');
+  }
+
 }
 
 export default new ProductService();
