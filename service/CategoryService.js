@@ -7,7 +7,7 @@ class CategoryService {
   }
 
   async getAll() {
-    const categories = await Category.find();
+    const categories = await Category.find().sort({ name: 1 })
     return categories;
   }
 }
