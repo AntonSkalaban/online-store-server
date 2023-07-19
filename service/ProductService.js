@@ -11,7 +11,9 @@ class ProductService {
     const findParams = {};
     const sortParams = {};
     
+    console.log(params) 
     Object.entries(params).forEach(([key, val]) => {
+      if(!val.length) return
       switch (key) {
         case 'category':
           findParams.category = val.split(',');
@@ -20,17 +22,23 @@ class ProductService {
           findParams.brand = val.split(',');
           break;
         case 'searchValue':
-          findParams.searchValue = val;
+          const re = new RegExp(params.searchValue, 'i');
+          findParams['$or'] = [{category: re}, {title: re}, {brand: re}] ;
           break;
-        case 'sortBy':
+        case 'sort':
           const [sortBy, sortFrom] = val.split('-');
           sortParams[sortBy] = sortFrom === 'ASC' ? 1 : -1;
+          break;
+        case 'price':
+          const [minPrice, maxPrice] = val.split(',');
+          findParams.discountPrice = { $gte: minPrice, $lte: maxPrice };
           break;
         default:
           break;
       }
     });
-
+    console.log(findParams)
+    console.log(sortParams)
     return await Product.find(findParams).sort(sortParams);
   }
 
