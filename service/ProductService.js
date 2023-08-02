@@ -39,20 +39,19 @@ class ProductService {
     });
     console.log(findParams)
     console.log(sortParams)
-    return await Product.find(findParams).sort(sortParams);
+    
+    const total = await Product.countDocuments();
+    const products =  await Product.find(findParams).sort(sortParams).skip(0).limit(4);
+
+    return {
+      products: products,
+      total: total,
+    }
   }
 
   async getOne(id) {
     if (!id) throw new Error('ID not specified');
     return await Product.findById(id);
-  }
-
-  async getBrands() {
-    return await Product.find({}, { brand: 1 }).sort({ brand: 1 }).distinct('brand');
-  }
-
-  async getPrices() {
-    return await Product.find({}, { price: 1 }).sort({ price: 1 }).distinct('price');
   }
 
 }

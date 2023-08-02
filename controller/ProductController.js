@@ -32,26 +32,6 @@ class ProductController {
       console.log(e.message);
     }
   }
-
-  async getBrands(req, res) {
-    try {
-      const brands = await ProductService.getBrands();
-      return res.json(brands);
-    } catch (e) {
-      res.status(500).json(e);
-      console.log(e.message);
-    }
-  }
-
-  async getPrices(req, res) {
-    try {
-      const prices = await ProductService.getPrices();
-      return res.json(prices);
-    } catch (e) {
-      res.status(500).json(e);
-      console.log(e.message);
-    }
-  }
 }
 
 export default new ProductController();
