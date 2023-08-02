@@ -1,11 +1,12 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import 'dotenv/config';
 import ProductRouter from './router/ProductRouter.js';
 import CategoryRouter from './router/CategoryRouter.js';
 
-const PORT = 3000;
-const DB_URL = 'mongodb+srv://antonskalaban99:online-store-password@cluster0.jvo9axa.mongodb.net/';
+const PORT = process.env.PORT;
+const DB_URL = process.env.DB_URL;
 
 const app = express();
 
@@ -26,7 +27,7 @@ const startApp = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    app.listen(PORT, () => console.log('server start on port ' + PORT));
+    app.listen(PORT, () => console.log('server started on port ' + PORT));
   } catch (e) {
     console.log(e);
   }

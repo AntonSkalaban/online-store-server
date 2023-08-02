@@ -10,8 +10,8 @@ class ProductService {
   async getAll(params) {
     const findParams = {};
     const sortParams = {};
+    let skip;
     
-    console.log(params) 
     Object.entries(params).forEach(([key, val]) => {
       if(!val.length) return
       switch (key) {
@@ -33,15 +33,16 @@ class ProductService {
           const [minPrice, maxPrice] = val.split(',');
           findParams.discountPrice = { $gte: minPrice, $lte: maxPrice };
           break;
+        case 'page':
+          skip = val * 20 || 0;
+          break;
         default:
           break;
       }
     });
-    console.log(findParams)
-    console.log(sortParams)
-    
+
+    const products =  await Product.find(findParams).sort(sortParams).skip(skip).limit(20);
     const total = await Product.countDocuments();
-    const products =  await Product.find(findParams).sort(sortParams).skip(0).limit(4);
 
     return {
       products: products,

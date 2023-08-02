@@ -2,7 +2,6 @@ import ProductService from '../service/ProductService.js';
 
 class ProductController {
   async create(req, res) {
-    console.log(req.body)
     try {
       const product = await ProductService.create(req.body);
       res.json(product);
@@ -23,7 +22,6 @@ class ProductController {
   }
 
   async getOne(req, res) {
-    console.log('id');
     try {
       const product = await ProductService.getOne(req.params.id);
       return res.json(product);
