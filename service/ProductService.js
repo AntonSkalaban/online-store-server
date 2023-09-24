@@ -35,7 +35,7 @@ class ProductService {
           findParams.discountPrice = { $gte: minPrice, $lte: maxPrice };
           break;
         case 'page':
-          limit = 5;
+          limit = 20;
           skip = val * limit;
           break;
         default:
